@@ -18,6 +18,10 @@ const OrderSchema = new mongoose.Schema({
         ref: "Product",
         required: true
     }],
+    canceled: {
+        type: Number,
+        default: 0
+    },
     transiction_id: {},
     cost: { type: Number },
     address: {},

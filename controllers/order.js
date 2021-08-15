@@ -74,13 +74,27 @@ exports.getOrderStatus = (req, res) => {
 
 }
 exports.updateStatus = (req, res) => {
-    Order.update(
+    Order.updateOne(
         { _id: req.body.orderId },
         { $set: { status: req.body.status } },
         (err, order) => {
             if (err) {
                 return res.status(400).json({
-                    message: "Can't update"
+                    error: "Can't update"
+                })
+            }
+            res.json(order)
+        }
+    )
+}
+exports.cancelOrder = (req, res) => {
+    Order.updateOne(
+        { _id: req.body.orderId },
+        { $set: { canceled: 1 } },
+        (err, order) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Can't update"
                 })
             }
             res.json(order)
