@@ -79,3 +79,28 @@ exports.pushOderInPurchaseList = (req, res, next) => {
 
   next();
 };
+exports.getAllTheUsers = (req, res) => {
+  User.find((err, users) => {
+    if (err) {
+      return res.status(404).json({
+        error: "unable to fetch users from database"
+      })
+    }
+    return res.status(200).json(users)
+  })
+}
+//update role
+exports.updateRole = (req, res) => {
+  User.updateOne(
+    { _id: req.body.userId },
+    { $set: { role: req.body.role } },
+    (err, user) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Can't update"
+        })
+      }
+      res.json(user)
+    }
+  )
+}
