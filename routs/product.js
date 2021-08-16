@@ -16,7 +16,8 @@ const {
   getAllProducts,
   getAllUniqueCategories,
   getProductDetails,
-  getProductsByIdArray
+  getProductsByIdArray,
+  getProductsOnIdArray
 } = require("../controllers/product");
 const { getUserById } = require("../controllers/user");
 //All params
@@ -40,6 +41,7 @@ router.get("/products", getAllProducts)
 router.get("products/categories", getAllUniqueCategories)
 router.get("/singleProduct/:productId", getProductDetails)
 router.post("/products/ids", getProductsByIdArray)
+router.post("/products/IdArray", getProductsOnIdArray)
 //update routes
 router.put(
   "/product/:productId/:userId",

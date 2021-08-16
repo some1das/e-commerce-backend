@@ -15,7 +15,8 @@ const {
   updateStatus,
   singleOrderDetails,
   getOrdersOfTheUser,
-  cancelOrder
+  cancelOrder,
+  deleteOrder
 } = require("../controllers/order");
 const { updateStocks } = require("../controllers/product");
 //Params
@@ -42,4 +43,5 @@ router.get("/order/:userId/:orderId", isSignedIn, isAuthenticated, isAdmain, sin
 router.get("/order/status/:userId", isSignedIn, isAuthenticated, isAdmain, getOrderStatus)
 router.put("/order/:orderId/status/:userId", isSignedIn, isAuthenticated, isAdmain, updateStatus)
 router.put("/order/:orderId/cancel/:userId", isSignedIn, isAuthenticated, cancelOrder)
+router.delete("/order/delete/:userId", deleteOrder)
 module.exports = router;

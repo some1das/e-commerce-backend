@@ -114,3 +114,17 @@ exports.getOrdersOfTheUser = (req, res) => {
         res.status(200).json(ordersOfTheUser)
     })
 }
+
+exports.deleteOrder = (req, res) => {
+    let orderId = req.body
+    Order.deleteOne(orderId, (err, order) => {
+        if (err) {
+            return res.status(404).json({
+                error: err
+            })
+        }
+        return res.status(200).json({
+            message: "successfully deleted the order"
+        })
+    })
+}

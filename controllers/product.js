@@ -219,3 +219,24 @@ exports.getProductsByIdArray = (req, res) => {
 
   });
 }
+
+//get products based on Ids on the array
+exports.getProductsOnIdArray = (req, res) => {
+  let Ids = req.body
+  let queryArray = [];
+  for (let i = 0; i < Ids.length; i++) {
+    let temp = {
+      _id: Ids[i]
+    }
+    queryArray.push(temp)
+  }
+  Product.find({ $or: queryArray }, (err, myProducts) => {
+    if (err) {
+      return res.status(400).json({
+        error: "unable to fetch products"
+      })
+    }
+    myProducts.forEach((p) => { p.photo = undefined })
+    return res.status(200).json(myProducts)
+  })
+}
