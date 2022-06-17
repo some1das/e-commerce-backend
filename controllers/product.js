@@ -27,15 +27,17 @@ exports.createProduct = (req, res) => {
 
   form.parse(req, (err, fields, file) => {
     if (err) {
+      console.log("hi****1")
       return res.status(400).json({
         message: "problem with image",
       });
     }
     //destructure the fields
     const { name, price, description, category, stock, sold } = fields;
-
+    console.log(fields)
     //TODO: restrictions on fields
     if (!name || !price || !description || !category || !stock) {
+      console.log("hi****2")
       return res.status(400).json({
         message: "something went wrong",
       });
@@ -44,6 +46,7 @@ exports.createProduct = (req, res) => {
 
     if (file.photo) {
       if (file.photo.size > 3000000) {
+        console.log("hi****3")
         return res.status(400).json({
           message: "file is too big!!",
         });
@@ -54,6 +57,7 @@ exports.createProduct = (req, res) => {
     //save to the DB
     product.save((err, product) => {
       if (err) {
+        console.log("hi****4")
         return res.status(400).json({
           message: "saving product failed",
         });

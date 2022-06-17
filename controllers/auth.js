@@ -16,13 +16,13 @@ exports.signout = (req, res) => {
 };
 
 exports.signup = async (req, res) => {
-  console.log("----------------------------"+req.body.email)
+  console.log("----------------------------" + req.body.email)
   const { code, email } = await req.body;
-  const data = await TempUser.findOne({email} );
-  
-//  await console.log("################-------------"+data.code)
-  
-  if (data!==null) {
+  const data = await TempUser.findOne({ email });
+
+  //  await console.log("################-------------"+data.code)
+
+  if (data !== null) {
     if (code === data.code) {
       let userData = await {
         name: data.name,
@@ -36,29 +36,27 @@ exports.signup = async (req, res) => {
             error: "not able to register the user",
           });
         }
-        TempUser.findOneAndDelete({email},(err,du)=>{
-          if(err)
-          {
+        TempUser.findOneAndDelete({ email }, (err, du) => {
+          if (err) {
             console.log(err)
           }
-          else{
+          else {
             console.log("deleted the temp user")
           }
         })
         return res.status(200).json(u);
       });
     }
-    else{
+    else {
       return res.status(404).json({
-        error:"code is not valid"
+        error: "code is not valid"
       })
     }
 
   }
-  else
-  {
+  else {
     return res.status(400).json({
-      error:"unable to match or something went wrong"
+      error: "unable to match or something went wrong"
     })
   }
 };
@@ -73,31 +71,33 @@ exports.preSignup = async (req, res) => {
     password: hashedPassword,
     code: vCode,
   };
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.MAIL_ID,
-      pass: process.env.MAIL_PASSWORD,
-    },
-  });
+  // var transporter = nodemailer.createTransport({
+  //   service: "gmail",
+  //   port: 8000,
+  //   secure: false, // use SSL
+  //   auth: {
+  //     user: process.env.MAIL_ID,
+  //     pass: process.env.MAIL_PASSWORD,
+  //   },
+  // });
 
-  var mailOptions = {
-    from: JSON.stringify(process.env.MAIL_ID),
-    to: JSON.stringify(req.body.email),
-    subject: "verification",
-    html: JSON.stringify(vCode),
-  };
+  // var mailOptions = {
+  //   from: JSON.stringify(process.env.MAIL_ID),
+  //   to: JSON.stringify(req.body.email),
+  //   subject: "verification",
+  //   html: JSON.stringify(vCode),
+  // };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      // return res.status(400).json({
-      //   error:"not able to send email to verify"
-      // })
-      console.log("not able to send mail----------------------" + error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+  // transporter.sendMail(mailOptions, function (error, info) {
+  //   if (error) {
+  //     // return res.status(400).json({
+  //     //   error:"not able to send email to verify"
+  //     // })
+  //     console.log("not able to send mail----------------------" + error);
+  //   } else {
+  //     console.log("Email sent: " + info.response);
+  //   }
+  // });
 
   const user = new TempUser(userData);
   user.save((err, user) => {
